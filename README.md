@@ -1,3 +1,28 @@
+## Tinyhttpd quickstart
+
+To build on linux:
+
+**Note:** all further changes listed below should be based on the original version.
+
+1. [color.cgi](./htdocs/color.cgi) needs `perl`, `libcgi-session-perl` installed and specifing default path `#!/usr/bin/perl`
+
+2. [Makeflie](./Makefile) needs to delete `-lsocket` for `libsocket` included in `libc` as default on linux
+
+3. [httpd.c](./httpd.c)
+
+    - line 25, 482, 495(6): comment out   
+    `#include <pthread.h>`  
+    `pthread_t newthread;`  
+    `if (pthread_create(&newthread , NULL, accept_request, client_sock) != 0)
+    perror("pthread_create");`
+
+    - line 436, 481: use `socklen_t` instead of `int`
+
+    - line 494: uncomment `accept_request(client_sock);`
+
+---
+
+```
   This software is copyright 1999 by J. David Blackstone.  Permission
 is granted to redistribute and modify this software under the terms of
 the GNU General Public License, available at http://www.gnu.org/ .
@@ -38,3 +63,4 @@ I help you learn something, I'd love to know!
   Happy hacking!
 
                                    J. David Blackstone
+```
